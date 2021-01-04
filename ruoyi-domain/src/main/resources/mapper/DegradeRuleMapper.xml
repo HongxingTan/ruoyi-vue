@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.domain.mapper.DegradeRuleMapper">
+    
+    <resultMap type="DegradeRule" id="DegradeRuleResult">
+        <result property="degradeRuleId"    column="degrade_rule_id"    />
+        <result property="resource"    column="resource"    />
+        <result property="grade"    column="grade"    />
+        <result property="count"    column="count"    />
+        <result property="timeWindow"    column="time_window"    />
+        <result property="minRequestAmount"    column="min_request_amount"    />
+        <result property="slowRatioThreshold"    column="slow_ratio_threshold"    />
+        <result property="statIntervalMs"    column="stat_interval_ms"    />
+    </resultMap>
+
+    <sql id="selectDegradeRuleVo">
+        select degrade_rule_id, resource, grade, count, time_window, min_request_amount, slow_ratio_threshold, stat_interval_ms from degrade_rule
+    </sql>
+
+    <select id="selectDegradeRuleList" parameterType="DegradeRule" resultMap="DegradeRuleResult">
+        <include refid="selectDegradeRuleVo"/>
+        <where>  
+            <if test="resource != null  and resource != ''"> and resource = #{resource}</if>
+            <if test="grade != null "> and grade = #{grade}</if>
+            <if test="count != null "> and count = #{count}</if>
+            <if test="timeWindow != null "> and time_window = #{timeWindow}</if>
+            <if test="minRequestAmount != null "> and min_request_amount = #{minRequestAmount}</if>
+            <if test="slowRatioThreshold != null "> and slow_ratio_threshold = #{slowRatioThreshold}</if>
+            <if test="statIntervalMs != null "> and stat_interval_ms = #{statIntervalMs}</if>
+        </where>
+    </select>
+    
+    <select id="selectDegradeRuleById" parameterType="Long" resultMap="DegradeRuleResult">
+        <include refid="selectDegradeRuleVo"/>
+        where degrade_rule_id = #{degradeRuleId}
+    </select>
+        
+    <insert id="insertDegradeRule" parameterType="DegradeRule" useGeneratedKeys="true" keyProperty="degradeRuleId">
+        insert into degrade_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="resource != null and resource != ''">resource,</if>
+            <if test="grade != null">grade,</if>
+            <if test="count != null">count,</if>
+            <if test="timeWindow != null">time_window,</if>
+            <if test="minRequestAmount != null">min_request_amount,</if>
+            <if test="slowRatioThreshold != null">slow_ratio_threshold,</if>
+            <if test="statIntervalMs != null">stat_interval_ms,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="resource != null and resource != ''">#{resource},</if>
+            <if test="grade != null">#{grade},</if>
+            <if test="count != null">#{count},</if>
+            <if test="timeWindow != null">#{timeWindow},</if>
+            <if test="minRequestAmount != null">#{minRequestAmount},</if>
+            <if test="slowRatioThreshold != null">#{slowRatioThreshold},</if>
+            <if test="statIntervalMs != null">#{statIntervalMs},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDegradeRule" parameterType="DegradeRule">
+        update degrade_rule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="resource != null and resource != ''">resource = #{resource},</if>
+            <if test="grade != null">grade = #{grade},</if>
+            <if test="count != null">count = #{count},</if>
+            <if test="timeWindow != null">time_window = #{timeWindow},</if>
+            <if test="minRequestAmount != null">min_request_amount = #{minRequestAmount},</if>
+            <if test="slowRatioThreshold != null">slow_ratio_threshold = #{slowRatioThreshold},</if>
+            <if test="statIntervalMs != null">stat_interval_ms = #{statIntervalMs},</if>
+        </trim>
+        where degrade_rule_id = #{degradeRuleId}
+    </update>
+
+    <delete id="deleteDegradeRuleById" parameterType="Long">
+        delete from degrade_rule where degrade_rule_id = #{degradeRuleId}
+    </delete>
+
+    <delete id="deleteDegradeRuleByIds" parameterType="String">
+        delete from degrade_rule where degrade_rule_id in 
+        <foreach item="degradeRuleId" collection="array" open="(" separator="," close=")">
+            #{degradeRuleId}
+        </foreach>
+    </delete>
+    
+</mapper>

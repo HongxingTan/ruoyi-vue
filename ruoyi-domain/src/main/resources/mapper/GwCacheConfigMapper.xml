@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.GwCacheConfigMapper">
+    
+    <resultMap type="GwCacheConfig" id="GwCacheConfigResult">
+        <result property="id"    column="id"    />
+        <result property="cacheName"    column="cache_name"    />
+        <result property="cacheUri"    column="cache_uri"    />
+        <result property="isGeneral"    column="is_general"    />
+        <result property="timeout"    column="timeout"    />
+    </resultMap>
+
+    <sql id="selectGwCacheConfigVo">
+        select id, cache_name, cache_uri, is_general, timeout from gw_cache_config
+    </sql>
+
+    <select id="selectGwCacheConfigList" parameterType="GwCacheConfig" resultMap="GwCacheConfigResult">
+        <include refid="selectGwCacheConfigVo"/>
+        <where>  
+            <if test="cacheName != null  and cacheName != ''"> and cache_name like concat('%', #{cacheName}, '%')</if>
+            <if test="cacheUri != null  and cacheUri != ''"> and cache_uri = #{cacheUri}</if>
+            <if test="isGeneral != null "> and is_general = #{isGeneral}</if>
+            <if test="timeout != null "> and timeout = #{timeout}</if>
+        </where>
+    </select>
+
+    <select id="selectApolloList" resultType="GwCacheConfigDto">
+        select cache_name cacheName, cache_uri cacheUri, is_general isGeneral, timeout from gw_cache_config
+    </select>
+    
+    <select id="selectGwCacheConfigById" parameterType="Integer" resultMap="GwCacheConfigResult">
+        <include refid="selectGwCacheConfigVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectGwCacheConfigByURI" parameterType="GwCacheConfig" resultType="GwCacheConfig">
+        <include refid="selectGwCacheConfigVo"/>
+        where cache_uri = #{cacheUri} and cache_name = #{cacheName}
+    </select>
+        
+    <insert id="insertGwCacheConfig" parameterType="GwCacheConfig" useGeneratedKeys="true" keyProperty="id">
+        insert into gw_cache_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cacheName != null and cacheName != ''">cache_name,</if>
+            <if test="cacheUri != null and cacheUri != ''">cache_uri,</if>
+            <if test="isGeneral != null">is_general,</if>
+            <if test="timeout != null">timeout,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cacheName != null and cacheName != ''">#{cacheName},</if>
+            <if test="cacheUri != null and cacheUri != ''">#{cacheUri},</if>
+            <if test="isGeneral != null">#{isGeneral},</if>
+            <if test="timeout != null">#{timeout},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGwCacheConfig" parameterType="GwCacheConfig">
+        update gw_cache_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cacheName != null and cacheName != ''">cache_name = #{cacheName},</if>
+            <if test="cacheUri != null and cacheUri != ''">cache_uri = #{cacheUri},</if>
+            <if test="isGeneral != null">is_general = #{isGeneral},</if>
+            <if test="timeout != null">timeout = #{timeout},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGwCacheConfigById" parameterType="Integer">
+        delete from gw_cache_config where id = #{id}
+    </delete>
+
+    <delete id="deleteGwCacheConfigByIds" parameterType="String">
+        delete from gw_cache_config where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

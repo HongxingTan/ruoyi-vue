@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.domain.mapper.AuthFilterMapper">
+
+    <resultMap type="AuthFilter" id="AuthFilterResult">
+        <result property="id"    column="id"    />
+        <result property="encodeKey"    column="encode_key"    />
+        <result property="ignoreClients"    column="ignore_clients"    />
+        <result property="ignoreUrls"    column="ignore_urls"    />
+        <result property="channelKeys"    column="channel_keys"    />
+        <result property="type"    column="type"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createId"    column="create_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectAuthFilterVo">
+        select id, encode_key, ignore_clients, ignore_urls, channel_keys, type, del_flag, create_id, create_by, create_time, update_id, update_by, update_time from auth_filter
+    </sql>
+
+    <select id="selectAuthFilterList" parameterType="AuthFilter" resultMap="AuthFilterResult">
+        <include refid="selectAuthFilterVo"/>
+        <where>
+            <if test="encodeKey != null  and encodeKey != ''"> and encode_key = #{encodeKey}</if>
+            <if test="ignoreClients != null  and ignoreClients != ''"> and ignore_clients = #{ignoreClients}</if>
+            <if test="ignoreUrls != null  and ignoreUrls != ''"> and ignore_urls = #{ignoreUrls}</if>
+            <if test="channelKeys != null  and channelKeys != ''"> and channel_keys = #{channelKeys}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+        </where>
+    </select>
+
+    <select id="selectAuthFilterById" parameterType="Long" resultMap="AuthFilterResult">
+        <include refid="selectAuthFilterVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAuthFilter" parameterType="AuthFilter" useGeneratedKeys="true" keyProperty="id">
+        insert into auth_filter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="encodeKey != null">encode_key,</if>
+            <if test="ignoreClients != null">ignore_clients,</if>
+            <if test="ignoreUrls != null">ignore_urls,</if>
+            <if test="channelKeys != null">channel_keys,</if>
+            <if test="type != null">type,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createId != null">create_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateId != null">update_id,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="encodeKey != null">#{encodeKey},</if>
+            <if test="ignoreClients != null">#{ignoreClients},</if>
+            <if test="ignoreUrls != null">#{ignoreUrls},</if>
+            <if test="channelKeys != null">#{channelKeys},</if>
+            <if test="type != null">#{type},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateId != null">#{updateId},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAuthFilter" parameterType="AuthFilter">
+        update auth_filter
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="encodeKey != null">encode_key = #{encodeKey},</if>
+            <if test="ignoreClients != null">ignore_clients = #{ignoreClients},</if>
+            <if test="ignoreUrls != null">ignore_urls = #{ignoreUrls},</if>
+            <if test="channelKeys != null">channel_keys = #{channelKeys},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createId != null">create_id = #{createId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAuthFilterById" parameterType="Long">
+        delete from auth_filter where id = #{id}
+    </delete>
+
+    <delete id="deleteAuthFilterByIds" parameterType="String">
+        delete from auth_filter where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

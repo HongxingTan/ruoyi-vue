@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.domain.mapper.GatewayFlowRuleMapper">
+    
+    <resultMap type="GatewayFlowRule" id="GatewayFlowRuleResult">
+        <result property="gatewayFlowRuleId"    column="gateway_flow_rule_id"    />
+        <result property="resource"    column="resource"    />
+        <result property="grade"    column="grade"    />
+        <result property="count"    column="count"    />
+        <result property="intervalSec"    column="interval_sec"    />
+        <result property="controlBehavior"    column="control_behavior"    />
+        <result property="burst"    column="burst"    />
+        <result property="maxQueueingTimeoutMs"    column="max_queueing_timeout_ms"    />
+    </resultMap>
+
+    <sql id="selectGatewayFlowRuleVo">
+        select gateway_flow_rule_id, resource, grade, count, interval_sec, control_behavior, burst, max_queueing_timeout_ms from gateway_flow_rule
+    </sql>
+
+    <select id="selectGatewayFlowRuleList" parameterType="GatewayFlowRule" resultMap="GatewayFlowRuleResult">
+        <include refid="selectGatewayFlowRuleVo"/>
+        <where>  
+            <if test="resource != null  and resource != ''"> and resource = #{resource}</if>
+            <if test="grade != null "> and grade = #{grade}</if>
+            <if test="count != null "> and count = #{count}</if>
+            <if test="intervalSec != null "> and interval_sec = #{intervalSec}</if>
+            <if test="controlBehavior != null "> and control_behavior = #{controlBehavior}</if>
+            <if test="burst != null "> and burst = #{burst}</if>
+            <if test="maxQueueingTimeoutMs != null "> and max_queueing_timeout_ms = #{maxQueueingTimeoutMs}</if>
+        </where>
+    </select>
+    
+    <select id="selectGatewayFlowRuleById" parameterType="Long" resultMap="GatewayFlowRuleResult">
+        <include refid="selectGatewayFlowRuleVo"/>
+        where gateway_flow_rule_id = #{gatewayFlowRuleId}
+    </select>
+        
+    <insert id="insertGatewayFlowRule" parameterType="GatewayFlowRule" useGeneratedKeys="true" keyProperty="gatewayFlowRuleId">
+        insert into gateway_flow_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="resource != null and resource != ''">resource,</if>
+            <if test="grade != null">grade,</if>
+            <if test="count != null">count,</if>
+            <if test="intervalSec != null">interval_sec,</if>
+            <if test="controlBehavior != null">control_behavior,</if>
+            <if test="burst != null">burst,</if>
+            <if test="maxQueueingTimeoutMs != null">max_queueing_timeout_ms,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="resource != null and resource != ''">#{resource},</if>
+            <if test="grade != null">#{grade},</if>
+            <if test="count != null">#{count},</if>
+            <if test="intervalSec != null">#{intervalSec},</if>
+            <if test="controlBehavior != null">#{controlBehavior},</if>
+            <if test="burst != null">#{burst},</if>
+            <if test="maxQueueingTimeoutMs != null">#{maxQueueingTimeoutMs},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGatewayFlowRule" parameterType="GatewayFlowRule">
+        update gateway_flow_rule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="resource != null and resource != ''">resource = #{resource},</if>
+            <if test="grade != null">grade = #{grade},</if>
+            <if test="count != null">count = #{count},</if>
+            <if test="intervalSec != null">interval_sec = #{intervalSec},</if>
+            <if test="controlBehavior != null">control_behavior = #{controlBehavior},</if>
+            <if test="burst != null">burst = #{burst},</if>
+            <if test="maxQueueingTimeoutMs != null">max_queueing_timeout_ms = #{maxQueueingTimeoutMs},</if>
+        </trim>
+        where gateway_flow_rule_id = #{gatewayFlowRuleId}
+    </update>
+
+    <delete id="deleteGatewayFlowRuleById" parameterType="Long">
+        delete from gateway_flow_rule where gateway_flow_rule_id = #{gatewayFlowRuleId}
+    </delete>
+
+    <delete id="deleteGatewayFlowRuleByIds" parameterType="String">
+        delete from gateway_flow_rule where gateway_flow_rule_id in 
+        <foreach item="gatewayFlowRuleId" collection="array" open="(" separator="," close=")">
+            #{gatewayFlowRuleId}
+        </foreach>
+    </delete>
+    
+</mapper>

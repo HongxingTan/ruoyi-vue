@@ -1,0 +1,10 @@
+/ruoyi-admin/target/
+.idea
+/ruoyi-domain/target/
+/ruoyi-generator/target/
+/ruoyi-system/target/
+/ruoyi-quartz/target/
+/ruoyi-framework/target/
+/ruoyi-common/target/
+*.iml
+

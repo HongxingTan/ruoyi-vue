@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.domain.mapper.ServerInstanceInfoMapper">
+
+    <resultMap type="ServerInstanceInfo" id="ServerInstanceInfoResult">
+        <result property="id"    column="id"    />
+        <result property="instanceId"    column="instance_id"    />
+        <result property="appName"    column="app_name"    />
+        <result property="appGroupName"    column="app_group_name"    />
+        <result property="ipAddr"    column="ip_addr"    />
+        <result property="sid"    column="sid"    />
+        <result property="port"    column="port"    />
+        <result property="securePort"    column="secure_port"    />
+        <result property="homePageUrl"    column="home_page_url"    />
+        <result property="statusPageUrl"    column="status_page_url"    />
+        <result property="healthCheckUrl"    column="health_check_url"    />
+        <result property="vipAddress"    column="vip_address"    />
+        <result property="secureVipAddress"    column="secure_vip_address"    />
+        <result property="countryId"    column="country_id"    />
+        <result property="hostName"    column="host_name"    />
+        <result property="status"    column="status"    />
+        <result property="lastUpdatedTime"    column="last_updated_time"    />
+        <result property="lastDirtyTime"    column="last_dirty_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectServerInstanceInfoVo">
+        select id, instance_id, app_name, app_group_name, ip_addr, sid, port, secure_port, home_page_url, status_page_url, health_check_url, vip_address, secure_vip_address, country_id, host_name, status, last_updated_time, last_dirty_time, create_time, update_time from server_instance_info
+    </sql>
+
+    <select id="selectServerInstanceInfoList" parameterType="ServerInstanceInfo" resultMap="ServerInstanceInfoResult">
+        <include refid="selectServerInstanceInfoVo"/>
+        <where>
+            <if test="instanceId != null  and instanceId != ''"> and instance_id = #{instanceId}</if>
+            <if test="appName != null  and appName != ''"> and app_name like concat('%', #{appName}, '%')</if>
+            <if test="appGroupName != null  and appGroupName != ''"> and app_group_name like concat('%', #{appGroupName}, '%')</if>
+            <if test="ipAddr != null  and ipAddr != ''"> and ip_addr = #{ipAddr}</if>
+            <if test="sid != null  and sid != ''"> and sid = #{sid}</if>
+            <if test="port != null "> and port = #{port}</if>
+            <if test="securePort != null "> and secure_port = #{securePort}</if>
+            <if test="homePageUrl != null  and homePageUrl != ''"> and home_page_url = #{homePageUrl}</if>
+            <if test="statusPageUrl != null  and statusPageUrl != ''"> and status_page_url = #{statusPageUrl}</if>
+            <if test="healthCheckUrl != null  and healthCheckUrl != ''"> and health_check_url = #{healthCheckUrl}</if>
+            <if test="vipAddress != null  and vipAddress != ''"> and vip_address = #{vipAddress}</if>
+            <if test="secureVipAddress != null  and secureVipAddress != ''"> and secure_vip_address = #{secureVipAddress}</if>
+            <if test="countryId != null  and countryId != ''"> and country_id = #{countryId}</if>
+            <if test="hostName != null  and hostName != ''"> and host_name like concat('%', #{hostName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="lastUpdatedTime != null "> and last_updated_time = #{lastUpdatedTime}</if>
+            <if test="lastDirtyTime != null "> and last_dirty_time = #{lastDirtyTime}</if>
+        </where>
+    </select>
+
+    <select id="selectServerInstanceInfoById" parameterType="Long" resultMap="ServerInstanceInfoResult">
+        <include refid="selectServerInstanceInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertServerInstanceInfo" parameterType="ServerInstanceInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into server_instance_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="instanceId != null">instance_id,</if>
+            <if test="appName != null">app_name,</if>
+            <if test="appGroupName != null">app_group_name,</if>
+            <if test="ipAddr != null">ip_addr,</if>
+            <if test="sid != null">sid,</if>
+            <if test="port != null">port,</if>
+            <if test="securePort != null">secure_port,</if>
+            <if test="homePageUrl != null">home_page_url,</if>
+            <if test="statusPageUrl != null">status_page_url,</if>
+            <if test="healthCheckUrl != null">health_check_url,</if>
+            <if test="vipAddress != null">vip_address,</if>
+            <if test="secureVipAddress != null">secure_vip_address,</if>
+            <if test="countryId != null">country_id,</if>
+            <if test="hostName != null">host_name,</if>
+            <if test="status != null">status,</if>
+            <if test="lastUpdatedTime != null">last_updated_time,</if>
+            <if test="lastDirtyTime != null">last_dirty_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="instanceId != null">#{instanceId},</if>
+            <if test="appName != null">#{appName},</if>
+            <if test="appGroupName != null">#{appGroupName},</if>
+            <if test="ipAddr != null">#{ipAddr},</if>
+            <if test="sid != null">#{sid},</if>
+            <if test="port != null">#{port},</if>
+            <if test="securePort != null">#{securePort},</if>
+            <if test="homePageUrl != null">#{homePageUrl},</if>
+            <if test="statusPageUrl != null">#{statusPageUrl},</if>
+            <if test="healthCheckUrl != null">#{healthCheckUrl},</if>
+            <if test="vipAddress != null">#{vipAddress},</if>
+            <if test="secureVipAddress != null">#{secureVipAddress},</if>
+            <if test="countryId != null">#{countryId},</if>
+            <if test="hostName != null">#{hostName},</if>
+            <if test="status != null">#{status},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="lastDirtyTime != null">#{lastDirtyTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateServerInstanceInfo" parameterType="ServerInstanceInfo">
+        update server_instance_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="instanceId != null">instance_id = #{instanceId},</if>
+            <if test="appName != null">app_name = #{appName},</if>
+            <if test="appGroupName != null">app_group_name = #{appGroupName},</if>
+            <if test="ipAddr != null">ip_addr = #{ipAddr},</if>
+            <if test="sid != null">sid = #{sid},</if>
+            <if test="port != null">port = #{port},</if>
+            <if test="securePort != null">secure_port = #{securePort},</if>
+            <if test="homePageUrl != null">home_page_url = #{homePageUrl},</if>
+            <if test="statusPageUrl != null">status_page_url = #{statusPageUrl},</if>
+            <if test="healthCheckUrl != null">health_check_url = #{healthCheckUrl},</if>
+            <if test="vipAddress != null">vip_address = #{vipAddress},</if>
+            <if test="secureVipAddress != null">secure_vip_address = #{secureVipAddress},</if>
+            <if test="countryId != null">country_id = #{countryId},</if>
+            <if test="hostName != null">host_name = #{hostName},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="lastUpdatedTime != null">last_updated_time = #{lastUpdatedTime},</if>
+            <if test="lastDirtyTime != null">last_dirty_time = #{lastDirtyTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteServerInstanceInfoById" parameterType="Long">
+        delete from server_instance_info where id = #{id}
+    </delete>
+
+    <delete id="deleteServerInstanceInfoByIds" parameterType="String">
+        delete from server_instance_info where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
